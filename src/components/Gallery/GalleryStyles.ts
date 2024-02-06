@@ -37,6 +37,8 @@ export const galleryStyles = makeStyles()((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    top: 0,
+    flexShrink: 0,
     "&::after": {
       content: "''",
       backgroundImage: `url(${abstractLeaves})`,
@@ -54,7 +56,7 @@ export const galleryStyles = makeStyles()((theme: Theme) => ({
     position: "relative",
     zIndex: 1,
     width: `50%`,
-    height: "100%",
+    height: "50%",
     padding: `${theme.spacing(3)} 0`,
   },
   footerContainer: {
@@ -65,6 +67,8 @@ export const galleryStyles = makeStyles()((theme: Theme) => ({
     zIndex: 10,
     borderTopLeftRadius: "50%",
     borderTopRightRadius: "50%",
+    bottom: 0,
+    flexShrink: 0,
     "&::after": {
       content: "''",
       backgroundImage: `url(${abstractLeaves})`,
@@ -81,6 +85,7 @@ export const galleryStyles = makeStyles()((theme: Theme) => ({
   },
   swiperContainer: {
     width: "100%",
+    height: `calc(50% - ${theme.spacing(6)})`,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -93,18 +98,48 @@ export const galleryStyles = makeStyles()((theme: Theme) => ({
         width: "80%",
         display: "flex",
         justifyContent: "center",
-        filter: `drop-shadow(${theme.spacing(3)} ${theme.spacing(10)} ${theme.spacing(8)} ${theme.palette.secondary.contrastText})`,
+        filter: `drop-shadow(${theme.spacing(3)} ${theme.spacing(
+          10
+        )} ${theme.spacing(8)} ${theme.palette.secondary.contrastText})`,
         "& > img": {
           display: "block",
           width: "100%",
+          height: "auto",
+          objectFit: "scale-down",
+        },
+        "& > .swiper-slide-shadow-left ": {
+          backgroundImage: "unset",
+        },
+        "& > .swiper-slide-shadow-right ": {
+          backgroundImage: "unset",
         },
       },
     },
+  },
+  image: {
+    display: "block",
+    width: "100%",
+    height: "auto",
+    objectFit: "scale-down",
   },
   imageContainer: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: theme.palette.background.paper,
+  },
+  detailRow: {
+    width: "100%",
+    display: "flex",
+    padding: theme.spacing(3),
+  },
+  icon: {
+    width: theme.spacing(8),
+    color: theme.palette.primary.light,
+    paddingRight: theme.spacing(4),
+  },
+  detailText: {
+    fontSize: theme.spacing(8),
+    color: theme.palette.primary.contrastText,
   },
 }));
