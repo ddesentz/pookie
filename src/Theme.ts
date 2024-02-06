@@ -16,7 +16,7 @@ export const pookieTheme = createTheme({
       contrastText: '#000000',
     },
     error: {
-      light: '#EF9A9A',
+      light: '#AAAAA',
       main: '#EF5350',
       dark: '#E53935',
       contrastText: '#FFEBEE',
