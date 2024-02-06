@@ -5,7 +5,7 @@ import cartoonJungle from "../../assets/mutedJungle.jpg";
 export const homeStyles = makeStyles()((theme: Theme) => ({
   homeContainer: {
     width: "100vw",
-    height: "100vh",
+    height: "100svh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

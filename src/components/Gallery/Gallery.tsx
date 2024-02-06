@@ -8,11 +8,11 @@ import * as React from "react";
 import { galleryStyles } from "./GalleryStyles";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
-    Pagination,
-    Mousewheel,
-    EffectCoverflow,
-    Autoplay,
-  } from "swiper/modules";
+  Pagination,
+  Mousewheel,
+  EffectCoverflow,
+  Autoplay,
+} from "swiper/modules";
 import { Alignment, Fit, Layout, useRive } from "@rive-app/react-canvas";
 import { Grid, Typography } from "@mui/material";
 import Icon from "@mdi/react";
@@ -29,32 +29,13 @@ interface IImage {
   description: string;
 }
 
-const Image: React.FunctionComponent<{ src: string }> = ({ src }) => {
-  const { classes } = galleryStyles();
-  const storage = getStorage();
-  const [url, setUrl] = React.useState<string>("");
-
-  const getImage = async () => {
-    const imageRef = ref(storage, `images/${src}`);
-    const downloadURL = await getDownloadURL(imageRef);
-    setUrl(downloadURL);
-  };
-
-  React.useEffect(() => {
-    getImage();
-  }, [src]);
-
-  return <img src={url} className={classes.image} />;
-};
-
 const GalleryComponent: React.FunctionComponent<IGallery> = () => {
   const { classes } = galleryStyles();
+  const storage = getStorage();
   const [location, setLocation] = React.useState<string>("");
   const [date, setDate] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const [images, setImages] = React.useState<IImage[]>([]);
-
-
 
   React.useEffect(() => {
     fetchImages().then();
@@ -62,12 +43,14 @@ const GalleryComponent: React.FunctionComponent<IGallery> = () => {
 
   const fetchImages = async () => {
     await getDocs(collection(db, "images")).then((snapshot) => {
-      snapshot.docs.forEach((doc, index) => {
+      snapshot.docs.forEach(async (doc, index) => {
         const data = doc.data();
+        const imageRef = ref(storage, `images/${data.src}`);
+        const downloadURL = await getDownloadURL(imageRef)
         setImages((prev) => [
           ...prev,
           {
-            src: data.src,
+            src: downloadURL,
             location: data.location,
             date: data.date,
             description: data.description,
@@ -89,7 +72,7 @@ const GalleryComponent: React.FunctionComponent<IGallery> = () => {
     if (isActive) {
       updateState(img);
     }
-    return <Image src={img.src} />;
+    return <img src={img.src} className={classes.image} />;
   };
 
   const { RiveComponent } = useRive({
@@ -108,7 +91,7 @@ const GalleryComponent: React.FunctionComponent<IGallery> = () => {
       <div className={classes.headerContainer}>
         <RiveComponent className={classes.rive} />
       </div>
-      {images.length > 0 && (
+      {images.length > 3 && (
         <Swiper
           effect={"coverflow"}
           grabCursor={true}
@@ -130,7 +113,7 @@ const GalleryComponent: React.FunctionComponent<IGallery> = () => {
           }}
           loop={images.length > 3}
           mousewheel={true}
-          modules={[ EffectCoverflow, Mousewheel, Autoplay, Pagination]}
+          modules={[EffectCoverflow, Mousewheel, Autoplay, Pagination]}
           className={classes.swiperContainer}
         >
           {images.map((image, index) => (

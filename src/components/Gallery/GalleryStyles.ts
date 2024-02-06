@@ -6,7 +6,7 @@ import abstractLeaves from "../../assets/abstractLeaves.jpg";
 export const galleryStyles = makeStyles()((theme: Theme) => ({
   galleryContainer: {
     width: "100vw",
-    height: "100vh",
+    height: "100svh",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
